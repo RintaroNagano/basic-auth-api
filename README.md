@@ -1,16 +1,16 @@
 # basic-auth-api
 
 ## 概要
-Basic認証をGolangで実装した．
-フレームワークにGin，データベースはMySQL，ORMにGormを使用している．
-アーキテクチャはMVCに準じている．
-swaggerはまだ編集していないので，後ほど気が向けば編集する．
+Basic認証をGolangで実装した．  
+フレームワークにGin，データベースはMySQL，ORMにGormを使用している．  
+アーキテクチャはMVCに準じている．  
+swaggerはまだ編集していないので，後ほど気が向けば編集する．  
 
-機能の概略は以下の通りである．
-POST /signup ユーザアカウント作成
-GET /users/{user_id} ユーザ情報の取得
-PATCH /users/{user_id} ユーザ情報の更新
-POST /close ユーザアカウントの削除
+機能の概要は以下の通りである．
+- POST /signup ユーザアカウント作成
+- GET /users/{user_id} ユーザ情報の取得
+- PATCH /users/{user_id} ユーザ情報の更新
+- POST /close ユーザアカウントの削除
 
 ## 実装した機能
 - [POST] /signup
@@ -32,7 +32,6 @@ POST /close ユーザアカウントの削除
     - {"message": "User detail by user_id", "user": {"user_id": "hogehoge", "nickname": "fugafuga", "comment": "piyopiyo"}} 
     - HttpStatusCode(200)
   - 失敗
-    - 
 
 - [PATCH] /users/{user_id}
   - Request: Header: UserId `string`, Password `string`
