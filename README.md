@@ -14,28 +14,46 @@ swaggerはまだ編集していないので，後ほど気が向けば編集す�
 
 ## 実装した機能
 - [POST] /signup
-  - Request: {"user_id", "password"} 
-    -　ユーザIDは6~20文字かつ半角英数字のみ
-    -　パスワードは8~20文字かつ半角英数字記号(空白と制御文字除くASCII文字)
+  - Request: 
+    - {"user_id", "password"} 
+    - ユーザIDは6\~20文字かつ半角英数字のみ
+    - パスワードは8\~20文字かつ半角英数字記号(空白と制御文字除くASCII文字)
   - Response: 
   - 成功
-    - {"message": "Account successfully created", "user": {"user_id": "hogehoge", "nickname": "fugafuga"}} 
-    - HttpStatusCode(200)　
+    - {"message": "Account successfully created", "user": {"user_id": "hogehoge", "nickname": "fugafuga"}}  /HttpStatusCode(200)　
   - 失敗
-    - {"message": "Account creation failed", "cause": "(原因)"}
-    - HttpStatuseCode(400)　
+    - {"message": "Account creation failed", "cause": "(原因)"} /HttpStatuseCode(400)　
 - [GET] /users/{user_id}
   - Request: 
     - Authorizationヘッダ: Basic <Base64エンコードされた {user_id} + ":" + {password}>
   - Response:
   - 成功
-    - {"message": "User detail by user_id", "user": {"user_id": "hogehoge", "nickname": "fugafuga", "comment": "piyopiyo"}} 
-    - HttpStatusCode(200)
+    - {"message": "User detail by user_id", "user": {"user_id": "hogehoge", "nickname": "fugafuga", "comment": "piyopiyo"}} /HttpStatusCode(200)
+    - ニックネームの初期値はユーザID
   - 失敗
-
+    - {"message": "No user found"} /HttpStatusCode(404)
+    - {"message": "Authorization failed"} /HttpStatusCode(400)
 - [PATCH] /users/{user_id}
-  - Request: Header: UserId `string`, Password `string`
-  - Response: {"token": 任意の文字列} / HttpStatusCode(201)
+  - Request:
+    - Authorizationヘッダ: Basic <Base64エンコードされた {user_id} + ":" + {password}>
+    - {"nickname", "comment"}
+    - ニックネームは30文字以内，制御文字除く任意の文字，空文字列で更新された場合はユーザIDに戻る
+    - コメントは100文字以内，制御文字除く任意の文字，空文字列で更新された場合は空文字列となる
+  - Response:
+  - 成功
+    - {"message": "User successfully updated", "recipe": {"nickname": "hogehoge", "comment": "fugafuga"}} /HttpStatusCode(200)　
+  - 失敗
+    - {"message": "No user found"} /HttpStatusCode(404)
+    - {"message": "User updation failed", "cause": "(原因)"} /HttpStatusCode(400)
+    - {"message": "Authorization failed"} /HttpStatusCode(401)
+- [POST] /close
+  - Request:
+    - Authorizationヘッダ: Basic <Base64エンコードされた {user_id} + ":" + {password}>
+  - Response:
+  - 成功
+    - {"message": "Account and User successfully removed"} /HttpStatusCode(200)　
+  - 失敗
+    - {"message": "Authorization failed"} /HttpStatusCode(401)
 
 ## 動作確認
 1. cp .env.sample .env
